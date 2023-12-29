@@ -7,6 +7,8 @@
     <meta charset="utf-8" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+    @notifyCss
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
         crossorigin="anonymous" />
@@ -42,7 +44,7 @@
 
                     <a class="nav-link active" href="{{ route('product.index') }}">Products</a>
 
-                    <a class="nav-link active" href="/cart">Cart</a>
+                    <a class="nav-link active" href="{{ route('cart.index') }}">Cart</a>
 
                     <a class="nav-link active" href="{{ route('home.about') }}">About</a>
 
@@ -117,6 +119,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
     </script>
 
+@notifyCss
+@include('notify::components.notify')
 </body>
 
 </html>

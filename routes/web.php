@@ -1,6 +1,8 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use PhpParser\Node\Stmt\Return_;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,54 +14,49 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', '\App\Http\Controllers\HomeController@index')->name("home.index");
-
-Route::get('about', '\App\Http\Controllers\HomeController@about')->name("home.about");
-
-Route::get('/products', '\App\Http\Controllers\ProductController@index')->name("product.index");
-
-Route::get('/products/{id}', '\App\Http\Controllers\ProductController@show')->name("product.show");
 
 
-Route::get('/admin', '\App\Http\Controllers\Admin\AdminHomeController@index')->name("admin.home.index");
-
-Route::get('/admin/products', '\App\Http\Controllers\Admin\AdminProductController@index')->name("admin.product.index");
-
-Route::post('/admin/products/store', '\App\Http\Controllers\Admin\AdminProductController@store')->name("admin.product.store");
-
-Route::get('/admin/products/create', '\App\Http\Controllers\Admin\AdminProductController@create')->name("admin.product.create");
-
-Route::delete('/admin/products/{id}/delete', '\App\Http\Controllers\Admin\AdminProductController@delete')->name("admin.product.delete");
-
-Route::get('/admin/products/{id}/edit', '\App\Http\Controllers\Admin\AdminProductController@edit')->name("admin.product.edit");
-
-Route::put('/admin/products/{id}/update', '\App\Http\Controllers\Admin\AdminProductController@update')->name("admin.product.update");
-Route::middleware('admin')->prefix('/admin')->group(function(){
-
-Route::get('/', '\App\Http\Controllers\HomeController@index')->name("home.index");
-
-Route::get('about', '\App\Http\Controllers\HomeController@about')->name("home.about");
-
-Route::get('/products', '\App\Http\Controllers\ProductController@index')->name("product.index");
-
-Route::get('/products/{id}', '\App\Http\Controllers\ProductController@show')->name("product.show");
+Route::middleware('admin')->group(function () {
 
 
-Route::get('/admin', '\App\Http\Controllers\Admin\AdminHomeController@index')->name("admin.home.index");
+    Route::get('/admin', '\App\Http\Controllers\Admin\AdminHomeController@index')->name("admin.home.index");
 
-Route::get('/admin/products', '\App\Http\Controllers\Admin\AdminProductController@index')->name("admin.product.index");
+    Route::get('/admin/products', '\App\Http\Controllers\Admin\AdminProductController@index')->name("admin.product.index");
 
-Route::post('/admin/products/store', '\App\Http\Controllers\Admin\AdminProductController@store')->name("admin.product.store");
+    Route::post('/admin/products/store', '\App\Http\Controllers\Admin\AdminProductController@store')->name("admin.product.store");
 
-Route::get('/admin/products/create', '\App\Http\Controllers\Admin\AdminProductController@create')->name("admin.product.create");
+    Route::get('/admin/products/create', '\App\Http\Controllers\Admin\AdminProductController@create')->name("admin.product.create");
 
-Route::delete('/admin/products/{id}/delete', '\App\Http\Controllers\Admin\AdminProductController@delete')->name("admin.product.delete");
+    Route::delete('/admin/products/{id}/delete', '\App\Http\Controllers\Admin\AdminProductController@delete')->name("admin.product.delete");
 
-Route::get('/admin/products/{id}/edit', '\App\Http\Controllers\Admin\AdminProductController@edit')->name("admin.product.edit");
+    Route::get('/admin/products/{id}/edit', '\App\Http\Controllers\Admin\AdminProductController@edit')->name("admin.product.edit");
 
-Route::put('/admin/products/{id}/update', '\App\Http\Controllers\Admin\AdminProductController@update')->name("admin.product.update");
+    Route::put('/admin/products/{id}/update', '\App\Http\Controllers\Admin\AdminProductController@update')->name("admin.product.update");
 
+    
 });
 
 Auth::routes();
 
+Route::get('/', '\App\Http\Controllers\HomeController@index')->name("home.index");
+
+Route::get('about', '\App\Http\Controllers\HomeController@about')->name("home.about");
+
+Route::get('/products', '\App\Http\Controllers\ProductController@index')->name("product.index");
+
+Route::get('/products/{id}', '\App\Http\Controllers\ProductController@show')->name("product.show");
+
+
+Route::get('/cart', '\App\Http\Controllers\CartController@index')->name("cart.index");
+    Route::delete('/cart/delete', '\App\Http\Controllers\CartController@delete')->name("cart.delete");
+    Route::post('/cart/add/{id}', '\App\Http\Controllers\CartControllerr@add')->name("cart.add");
+
+    Route::get("/test", function () {
+        return "you are here";
+    })->middleware(['HasRole:super', 'admin']);
+
+    Route::middleware('auth')->group(function(){
+
+Route::get('/cart/purchase','\App\Http\Controllers\CartController@purchase')->name("cart.purchase");
+});
+    

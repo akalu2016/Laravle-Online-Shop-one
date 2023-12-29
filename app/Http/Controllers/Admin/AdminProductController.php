@@ -41,6 +41,9 @@ class AdminProductController extends Controller
                 $imageName,
                 file_get_contents($request->file('image')->getRealPath())
             );
+
+notify()->success("Notification Detail", " Product Created");
+
             $newProduct->image = $imageName;
             $newProduct->save();
         }
@@ -73,13 +76,18 @@ class AdminProductController extends Controller
             $product->image = $imageName;
         }
         $product->save();
+
+        notify()->success("Notification Detail", " Product Updated");
+
         return redirect()->route('admin.product.index');
+        
     }
 
 
     public function delete($id)
     {
         Product::destroy($id);
+        notify()->success("Notification Detail", " Product Deleted");
         return back();
     }
 }
